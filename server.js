@@ -44,22 +44,7 @@ app.use('/admin', adminRoutes);
 
 // ── 404 ───────────────────────────────────
 app.use((req, res) => {
-  res.status(404).send(`
-    <!DOCTYPE html>
-    <html>
-    <head><title>Page Not Found — Glow Scents</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Jost&display=swap" rel="stylesheet">
-    </head>
-    <body style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1a0a00,#3d1f00);font-family:'Jost',sans-serif;text-align:center;">
-      <div>
-        <p style="color:#d4a843;font-size:80px;margin:0;">404</p>
-        <h1 style="font-family:'Cormorant Garamond',serif;color:#faf6f0;font-size:32px;margin:10px 0;">Page Not Found</h1>
-        <p style="color:#8a7060;margin-bottom:28px;">The page you're looking for doesn't exist.</p>
-        <a href="/" style="background:#d4a843;color:#1a0a00;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;">Go Home</a>
-      </div>
-    </body>
-    </html>
-  `);
+  res.status(404).render('404', { user: req.session ? req.session.userName : null });
 });
 
 // ── Start ─────────────────────────────────

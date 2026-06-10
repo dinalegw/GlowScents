@@ -1,0 +1,23 @@
+<%- include('partials/header', { title: 'Page Not Found' }) %>
+
+<section class="page-header">
+  <div class="container">
+    <h1>404 — Page Not Found</h1>
+    <p>Sorry, we couldn't find the page you were looking for.</p>
+  </div>
+</section>
+
+<section class="container" style="padding:40px 0 120px;text-align:center;">
+  <div style="max-width:720px;margin:0 auto;background:var(--white);padding:36px;border-radius:12px;box-shadow:var(--shadow);">
+    <p style="font-size:64px;margin:0;color:var(--gold);">🧭</p>
+    <h2 style="margin-top:12px;">Looks like you're off the path</h2>
+    <p style="color:var(--muted);">Try returning to the home page or browse our catalog.</p>
+    <div style="margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a class="btn btn-outline" href="/">Home</a>
+      <a class="btn btn-gold" href="/catalog">Browse Catalog</a>
+      <a class="btn" href="/contact" style="border:1px solid var(--cream-dark);">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
