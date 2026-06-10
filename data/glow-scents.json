@@ -27,8 +27,23 @@
       "status": "pending",
       "notes": "",
       "created_at": "2026-06-10T10:33:31.941Z"
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "user_name": "Obrian",
+      "user_email": "danieloinalegwu@gmail.com",
+      "user_phone": "09031694872",
+      "delivery_address": "NyaNya Phase 4",
+      "delivery_city": "Nynya",
+      "delivery_state": "FCT",
+      "items": "[{\"id\":1,\"name\":\"Oud Royale\",\"price\":8500,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":2},{\"id\":2,\"name\":\"Rose Taif\",\"price\":7200,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":3},{\"id\":3,\"name\":\"Amber Noir\",\"price\":6500,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":1},{\"id\":6,\"name\":\"Jasmine Nights\",\"price\":6000,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":1},{\"id\":5,\"name\":\"Black Saffron\",\"price\":9500,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":1},{\"id\":4,\"name\":\"Musk Al Tahara\",\"price\":5500,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":1},{\"id\":7,\"name\":\"Frankincense & Gold\",\"price\":7800,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":1},{\"id\":8,\"name\":\"Velvet Tobacco\",\"price\":8000,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":2}]",
+      "total": 89900,
+      "status": "pending",
+      "notes": "PLEASE I NEED IT TODAY\r\n",
+      "created_at": "2026-06-10T10:50:45.992Z"
     }
   ],
   "_userSeq": 1,
-  "_orderSeq": 1
+  "_orderSeq": 2
 }
