@@ -145,3 +145,26 @@ async function sendOrderConfirmation(order, userEmail) {
 }
 
 module.exports = { sendOrderNotification, sendOrderConfirmation };
+
+async function sendContactMessage({ name, email, phone, message }) {
+  const transporter = createTransporter();
+  const mailOptions = {
+    from: `"Glow Scents Contact" <${process.env.SMTP_USER}>`,
+    to: process.env.OWNER_EMAIL,
+    subject: `📨 Contact Form: ${name} <${email}>`,
+    html: `
+      <div style="font-family:Arial,Helvetica,sans-serif;color:#222;">
+        <h2>New contact message</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+        <p><strong>Phone:</strong> ${phone || '(not provided)'}</p>
+        <h3>Message</h3>
+        <p style="white-space:pre-wrap;">${message}</p>
+      </div>
+    `
+  };
+
+  return transporter.sendMail(mailOptions);
+}
+
+module.exports = { sendOrderNotification, sendOrderConfirmation, sendContactMessage };

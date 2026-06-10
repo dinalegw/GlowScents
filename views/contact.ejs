@@ -1,0 +1,47 @@
+<%- include('partials/header', { title: 'Contact Glow Scents' }) %>
+
+<section class="page-header">
+  <div class="container">
+    <h1>Contact Us</h1>
+    <p>We'd love to hear from you — questions, collabs, or wholesale inquiries.</p>
+  </div>
+</section>
+
+<section class="container" style="padding:40px 0 120px;max-width:900px;">
+  <% if (error) { %>
+    <div class="alert alert-error"><%= error %></div>
+  <% } %>
+  <% if (success) { %>
+    <div class="alert alert-success"><%= success %></div>
+  <% } %>
+
+  <form action="/contact" method="post" style="background:var(--white);padding:22px;border-radius:12px;box-shadow:var(--shadow);">
+    <div class="form-row">
+      <div>
+        <label class="form-label">Name</label>
+        <input class="form-input" name="name" value="<%= form.name || '' %>" />
+      </div>
+      <div>
+        <label class="form-label">Email</label>
+        <input class="form-input" name="email" value="<%= form.email || '' %>" />
+      </div>
+    </div>
+    <div class="form-row" style="margin-top:12px;">
+      <div>
+        <label class="form-label">Phone (optional)</label>
+        <input class="form-input" name="phone" value="<%= form.phone || '' %>" />
+      </div>
+      <div></div>
+    </div>
+    <div style="margin-top:12px;">
+      <label class="form-label">Message</label>
+      <textarea class="form-textarea" name="message"><%= form.message || '' %></textarea>
+    </div>
+
+    <div style="margin-top:18px;text-align:right;">
+      <button class="btn btn-gold" type="submit">Send Message</button>
+    </div>
+  </form>
+</section>
+
+<%- include('partials/footer') %>

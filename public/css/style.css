@@ -274,3 +274,26 @@ footer {
 @media (max-width: 400px) {
   .product-grid { grid-template-columns: 1fr; }
 }
+
+/* WhatsApp floating button */
+#whatsapp-float {
+  position: fixed; right: 18px; bottom: 18px; z-index: 9999;
+}
+#whatsapp-float a {
+  display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--ebony);font-size:26px;text-decoration:none;box-shadow:0 8px 24px rgba(26,10,0,0.18);border:4px solid rgba(255,255,255,0.12);
+}
+#whatsapp-float a:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(26,10,0,0.24); }
+
+/* Mobile improvements */
+@media (max-width: 600px) {
+  nav { height: 60px; padding: 0 16px; }
+  .nav-brand { font-size: 20px; }
+  .hamburger { padding-right: 8px; }
+  .page-header { padding-top: 90px; }
+  .product-image { height: 180px; }
+}
+
+/* Improve accessibility for small screens */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

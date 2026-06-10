@@ -36,9 +36,11 @@ require('./data/db');
 // ── Routes ────────────────────────────────
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
+const adminRoutes = require('./routes/admin');
 
 app.use('/', authRoutes);
 app.use('/', shopRoutes);
+app.use('/admin', adminRoutes);
 
 // ── 404 ───────────────────────────────────
 app.use((req, res) => {

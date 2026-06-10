@@ -1,0 +1,44 @@
+<%- include('partials/header', { title: 'Admin Dashboard' }) %>
+
+<section class="page-header">
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+    <p>Manage orders and view site stats.</p>
+  </div>
+</section>
+
+<section class="container" style="padding:40px 0 120px;">
+  <div style="display:flex;gap:18px;flex-wrap:wrap;">
+    <div style="background:var(--white);padding:18px;border-radius:12px;box-shadow:var(--shadow);min-width:180px;">
+      <h4>Users</h4>
+      <p style="font-size:22px;font-weight:700;color:var(--ebony);margin-top:8px;"><%= stats.users %></p>
+    </div>
+    <div style="background:var(--white);padding:18px;border-radius:12px;box-shadow:var(--shadow);min-width:180px;">
+      <h4>Orders</h4>
+      <p style="font-size:22px;font-weight:700;color:var(--ebony);margin-top:8px;"><%= stats.orders %></p>
+    </div>
+  </div>
+
+  <div style="margin-top:28px;background:var(--white);padding:18px;border-radius:12px;box-shadow:var(--shadow);">
+    <h3>Recent Orders</h3>
+    <% if (!recentOrders || recentOrders.length === 0) { %>
+      <p class="text-center" style="color:var(--muted);padding:20px 0;">No recent orders</p>
+    <% } else { %>
+      <table style="width:100%;border-collapse:collapse;margin-top:12px;">
+        <thead><tr style="text-align:left;color:var(--muted);font-size:13px;"><th>#</th><th>Customer</th><th>Total</th><th>Date</th></tr></thead>
+        <tbody>
+          <% recentOrders.forEach(o => { %>
+            <tr style="border-top:1px solid var(--cream-dark);">
+              <td style="padding:10px 6px;">#<%= o.id %></td>
+              <td style="padding:10px 6px;"><%= o.user_name %></td>
+              <td style="padding:10px 6px;">₦<%= o.total.toLocaleString() %></td>
+              <td style="padding:10px 6px;color:var(--muted);"><%= new Date(o.created_at).toLocaleString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

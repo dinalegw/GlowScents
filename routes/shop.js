@@ -4,6 +4,7 @@ const products = require('../data/products');
 const db = require('../data/db');
 const { requireAuth } = require('../middleware/auth');
 const { sendOrderNotification, sendOrderConfirmation } = require('../data/mailer');
+const { sendContactMessage } = require('../data/mailer');
 
 // GET / — Home page
 router.get('/', (req, res) => {
@@ -171,4 +172,32 @@ router.post('/account', requireAuth, (req, res) => {
   );
 });
 
+// GET /about
+router.get('/about', (req, res) => {
+  res.render('about', { user: req.session.userName || null });
+});
+
+// GET /contact
+router.get('/contact', (req, res) => {
+  res.render('contact', { user: req.session.userName || null, success: null, error: null, form: {} });
+});
+
+// POST /contact
+router.post('/contact', (req, res) => {
+  const { name, email, phone, message } = req.body;
+  if (!name || !email || !message) {
+    return res.render('contact', { user: req.session.userName || null, success: null, error: 'Please provide name, email and message.', form: req.body });
+  }
+
+  sendContactMessage({ name, email, phone, message })
+    .then(() => {
+      res.render('contact', { user: req.session.userName || null, success: 'Message sent. We will reply soon.', error: null, form: {} });
+    })
+    .catch(err => {
+      console.error('Contact mail error:', err && err.message ? err.message : err);
+      res.render('contact', { user: req.session.userName || null, success: null, error: 'Failed to send message. Try again later.', form: req.body });
+    });
+});
+
 module.exports = router;
+
