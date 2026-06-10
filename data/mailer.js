@@ -1,5 +1,14 @@
 const nodemailer = require('nodemailer');
 
+function getOwnerEmail() {
+  const email = process.env.OWNER_EMAIL;
+  const validEmail = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (!validEmail) {
+    throw new Error('OWNER_EMAIL is not configured or is invalid. Please set OWNER_EMAIL in .env to a valid email address.');
+  }
+  return email;
+}
+
 function createTransporter() {
   return nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.gmail.com',
@@ -26,7 +35,7 @@ async function sendOrderNotification(order) {
 
   const mailOptions = {
     from: `"Glow Scents Orders" <${process.env.SMTP_USER}>`,
-    to: process.env.OWNER_EMAIL,
+    to: getOwnerEmail(),
     subject: `🛍️ New Order #${order.id} — ${order.user_name} — ₦${order.total.toLocaleString()}`,
     html: `
       <!DOCTYPE html>
@@ -144,13 +153,11 @@ async function sendOrderConfirmation(order, userEmail) {
   return transporter.sendMail(mailOptions);
 }
 
-module.exports = { sendOrderNotification, sendOrderConfirmation };
-
 async function sendContactMessage({ name, email, phone, message }) {
   const transporter = createTransporter();
   const mailOptions = {
     from: `"Glow Scents Contact" <${process.env.SMTP_USER}>`,
-    to: process.env.OWNER_EMAIL,
+    to: getOwnerEmail(),
     subject: `📨 Contact Form: ${name} <${email}>`,
     html: `
       <div style="font-family:Arial,Helvetica,sans-serif;color:#222;">
