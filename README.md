@@ -6,64 +6,39 @@ A full-stack e-commerce web app for Glow Scents. Customers can browse the catalo
 
 ## 🚀 Quick Start (Local)
 
-### 1. Install Node.js
-Download and install Node.js (v18 or later) from https://nodejs.org
+1. Install Node.js
+   - Download and install Node.js v18 or later from https://nodejs.org
 
-### 2. Install Dependencies
-Open a terminal in this folder and run:
-```
-npm install
-```
+2. Install dependencies
+   - Open a terminal in this project folder and run:
+     ```bash
+     npm install
+     ```
 
-### 3. Configure Email
-Copy the example env file:
-```
-cp .env.example .env
-```
-Then open `.env` and fill in:
-- `OWNER_EMAIL` — your email address (where orders will be sent)
-- `SMTP_USER` — your Gmail address
-- `SMTP_PASS` — your Gmail App Password (NOT your normal password)
-  - Get one at: https://myaccount.google.com/apppasswords
-  # 🌟 Glow Scents — Premium Oil Perfumes & Miniatures
+3. Configure environment variables
+   - Copy the example file:
+     ```bash
+     cp .env.example .env
+     ```
+   - Open `.env` and edit the values:
+     - `OWNER_EMAIL` — the email address receiving order and contact notifications
+     - `SMTP_HOST` — your SMTP server (default: `smtp.gmail.com`)
+     - `SMTP_PORT` — your SMTP port (default: `587`)
+     - `SMTP_USER` — your SMTP login email
+     - `SMTP_PASS` — your SMTP password or app password
+     - `WA_NUMBER` — optional WhatsApp number in international format, e.g. `+2348000000000`
+     - `SESSION_SECRET` — a strong random string for session security
 
-  This repository contains a small e-commerce Node.js app for Glow Scents. It supports browsing a product catalog, user registration, cart/checkout flows, order notifications via email, and a lightweight admin dashboard.
+   - For Gmail, configure a Gmail App Password here:
+     https://myaccount.google.com/apppasswords
 
-  ## What I changed/added
-  - Added `/about` and `/contact` pages and a contact form that emails the owner.
-  - WhatsApp floating button (configurable via `WA_NUMBER` env var).
-  - Basic admin dashboard at `/admin` protected by owner email (see env var `OWNER_EMAIL`).
-  - Mobile CSS improvements and accessibility tweaks.
-  - A proper contact flow and small UI polish for header/footer.
+4. Start the app
+   ```bash
+   npm start
+   ```
+   Then open http://localhost:3000
 
-  ---
-
-  ## Quick Start (Local)
-
-  1. Install Node.js v18+ and Git.
-  2. Clone this repo and change into folder:
-
-  ```bash
-  npm install
-  cp .env.example .env
-  ```
-
-  3. Edit `.env` and set at minimum:
-  - `SMTP_USER` and `SMTP_PASS` — for sending emails.
-  - `OWNER_EMAIL` — where order and contact emails should be sent.
-  - Optional: `WA_NUMBER` — international phone digits for WhatsApp (e.g. `2348000000000`).
-
-  4. Run the app:
-
-  ```bash
-  npm start
-  ```
-
-  Open http://localhost:3000
-
-  ---
-
-  ## New Pages & Routes
+## New Pages & Routes
   - `/about` — About Glow Scents
   - `/contact` (GET/POST) — Contact form (sends email to `OWNER_EMAIL`)
   - `/admin` — Basic admin dashboard (requires login and `OWNER_EMAIL` match; fallback: first user)

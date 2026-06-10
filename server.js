@@ -51,6 +51,12 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`\n🌟 Glow Scents is running at http://localhost:${PORT}`);
   console.log(`📧 Owner email: ${process.env.OWNER_EMAIL || '(not set — configure .env)'}`);
+  if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    console.warn('⚠️ SMTP_USER and SMTP_PASS are not configured. Emails cannot be sent until these are provided.');
+  }
+  if (!process.env.OWNER_EMAIL) {
+    console.warn('⚠️ OWNER_EMAIL is not configured. Order and contact emails have no recipient.');
+  }
   console.log(`\nPages:`);
   console.log(`   Home     → http://localhost:${PORT}/`);
   console.log(`   Catalog  → http://localhost:${PORT}/catalog`);

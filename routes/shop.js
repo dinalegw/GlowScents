@@ -124,7 +124,7 @@ router.post('/checkout', requireAuth, async (req, res) => {
           await sendOrderNotification(orderData);
           await sendOrderConfirmation(orderData, user.email);
         } catch (mailErr) {
-          console.error('Email error (order still placed):', mailErr.message);
+          console.error('Email error (order still placed):', mailErr);
         }
 
         res.redirect('/order-success?id=' + orderId);

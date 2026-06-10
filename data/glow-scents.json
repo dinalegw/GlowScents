@@ -42,8 +42,23 @@
       "status": "pending",
       "notes": "PLEASE I NEED IT TODAY\r\n",
       "created_at": "2026-06-10T10:50:45.992Z"
+    },
+    {
+      "id": 3,
+      "user_id": 1,
+      "user_name": "Obrian",
+      "user_email": "danieloinalegwu@gmail.com",
+      "user_phone": "09031694872",
+      "delivery_address": "NyaNya Phase 4",
+      "delivery_city": "Nynya",
+      "delivery_state": "FCT",
+      "items": "[{\"id\":1,\"name\":\"Oud Royale\",\"price\":8500,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":9},{\"id\":2,\"name\":\"Rose Taif\",\"price\":7200,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":10},{\"id\":6,\"name\":\"Jasmine Nights\",\"price\":6000,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":2},{\"id\":5,\"name\":\"Black Saffron\",\"price\":9500,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":3},{\"id\":4,\"name\":\"Musk Al Tahara\",\"price\":5500,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":3},{\"id\":7,\"name\":\"Frankincense & Gold\",\"price\":7800,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":3},{\"id\":8,\"name\":\"Velvet Tobacco\",\"price\":8000,\"size\":\"12ml\",\"category\":\"oil\",\"qty\":3},{\"id\":9,\"name\":\"Oud Royale Mini\",\"price\":2500,\"size\":\"3ml\",\"category\":\"miniature\",\"qty\":3},{\"id\":12,\"name\":\"Musk Trio\",\"price\":5500,\"size\":\"3 × 2ml\",\"category\":\"miniature\",\"qty\":3},{\"id\":11,\"name\":\"Discovery Set A\",\"price\":8000,\"size\":\"5 × 2ml\",\"category\":\"miniature\",\"qty\":3},{\"id\":10,\"name\":\"Rose Taif Mini\",\"price\":2000,\"size\":\"3ml\",\"category\":\"miniature\",\"qty\":2},{\"id\":13,\"name\":\"Amber Noir Mini\",\"price\":1800,\"size\":\"3ml\",\"category\":\"miniature\",\"qty\":3},{\"id\":14,\"name\":\"Oud & Saffron Mini\",\"price\":3000,\"size\":\"3ml\",\"category\":\"miniature\",\"qty\":3},{\"id\":15,\"name\":\"Bridal Collection\",\"price\":12000,\"size\":\"6 × 2ml\",\"category\":\"miniature\",\"qty\":2},{\"id\":16,\"name\":\"Frankincense Mini\",\"price\":2200,\"size\":\"3ml\",\"category\":\"miniature\",\"qty\":2}]",
+      "total": 347700,
+      "status": "pending",
+      "notes": "DO IT NOW\r\n",
+      "created_at": "2026-06-10T12:37:17.902Z"
     }
   ],
   "_userSeq": 1,
-  "_orderSeq": 2
+  "_orderSeq": 3
 }

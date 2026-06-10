@@ -9,14 +9,24 @@ function getOwnerEmail() {
   return email;
 }
 
+function getSmtpConfig() {
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+  if (!user || !pass) {
+    throw new Error('SMTP_USER and SMTP_PASS are required for email delivery. Please configure them in .env.');
+  }
+  return { user, pass };
+}
+
 function createTransporter() {
+  const { user, pass } = getSmtpConfig();
   return nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.gmail.com',
     port: parseInt(process.env.SMTP_PORT) || 587,
     secure: false,
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+      user,
+      pass,
     },
   });
 }
