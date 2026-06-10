@@ -1,0 +1,59 @@
+<%- include('partials/header', { title: 'Shop All Scents — Glow Scents', user: user }) %>
+
+<% if (typeof welcome !== 'undefined' && welcome) { %>
+<div style="background:var(--gold);padding:14px;text-align:center;">
+  <p style="color:var(--ebony);font-weight:600;font-size:14px;">🎉 Welcome to Glow Scents! Start exploring our collection.</p>
+</div>
+<% } %>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Our Collection</h1>
+    <p>Handpicked oil perfumes and miniatures from around the world</p>
+  </div>
+</div>
+
+<section style="padding:48px 0 80px;">
+  <div class="container">
+
+    <!-- Filters & Search -->
+    <div class="catalog-controls">
+      <div class="filter-tabs">
+        <a href="/catalog" class="filter-tab <%= activeFilter === 'all' ? 'active' : '' %>">All (<%= products.length %>)</a>
+        <a href="/catalog?cat=oil" class="filter-tab <%= activeFilter === 'oil' ? 'active' : '' %>">Oil Perfumes</a>
+        <a href="/catalog?cat=miniature" class="filter-tab <%= activeFilter === 'miniature' ? 'active' : '' %>">Miniatures</a>
+      </div>
+      <form class="search-form" action="/catalog" method="GET">
+        <% if (activeFilter !== 'all') { %><input type="hidden" name="cat" value="<%= activeFilter %>"><% } %>
+        <input type="search" name="q" value="<%= searchQuery %>" placeholder="Search scents..." class="form-input" style="margin:0;width:260px;">
+        <button type="submit" class="btn btn-gold btn-sm">Search</button>
+      </form>
+    </div>
+
+    <% if (products.length === 0) { %>
+      <div class="empty-state">
+        <div class="icon">🔍</div>
+        <h3>No scents found</h3>
+        <p>Try a different search or browse all products.</p>
+        <a href="/catalog" class="btn btn-gold">View All</a>
+      </div>
+    <% } else { %>
+      <div class="product-grid">
+        <% products.forEach(function(p) { %>
+          <%- include('partials/product-card', { product: p }) %>
+        <% }) %>
+      </div>
+    <% } %>
+
+  </div>
+</section>
+
+<style>
+.catalog-controls { display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:36px; }
+.filter-tabs { display:flex;gap:8px;flex-wrap:wrap; }
+.filter-tab { padding:9px 20px;border-radius:20px;font-size:13px;font-weight:500;letter-spacing:0.5px;color:var(--muted);border:1.5px solid var(--cream-dark);transition:all 0.2s; }
+.filter-tab:hover,.filter-tab.active { background:var(--ebony);color:var(--gold);border-color:var(--ebony); }
+.search-form { display:flex;gap:8px;align-items:center; }
+</style>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,30 @@
+<%- include('partials/header', { title: 'Order Placed! — Glow Scents', user: user }) %>
+
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--ebony),var(--dark-brown));padding:100px 24px;">
+  <div style="background:var(--white);border-radius:var(--radius-lg);padding:52px 40px;max-width:520px;width:100%;text-align:center;box-shadow:var(--shadow-lg);">
+    <div style="font-size:72px;margin-bottom:20px;">✨</div>
+    <h1 style="font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--text);margin-bottom:12px;">Order Confirmed!</h1>
+    <p style="color:var(--muted);font-size:15px;line-height:1.7;margin-bottom:8px;">
+      Thank you, <strong><%= user %></strong>! Your order <strong>#<%= orderId %></strong> has been received.
+    </p>
+    <p style="color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:32px;">
+      We've sent a confirmation to your email. We'll contact you on your registered phone number before dispatch.
+    </p>
+    <div style="background:var(--cream);border-radius:var(--radius);padding:16px 20px;margin-bottom:28px;border-left:4px solid var(--gold);">
+      <p style="font-size:13px;color:var(--muted);">What happens next?</p>
+      <p style="font-size:14px;color:var(--text);margin-top:6px;line-height:1.6;">We'll prepare your order with care and reach out to confirm your delivery address and schedule.</p>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="/catalog" class="btn btn-gold">Continue Shopping</a>
+      <a href="/my-orders" class="btn btn-outline">View My Orders</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// Clear cart on success
+localStorage.removeItem('glow_scents_cart');
+updateCartBadge();
+</script>
+
+<%- include('partials/footer') %>

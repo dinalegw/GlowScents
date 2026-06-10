@@ -1,0 +1,174 @@
+<%- include('partials/header', { title: 'Glow Scents — Premium Oil Perfumes & Miniatures', user: user }) %>
+
+<!-- ── HERO ─────────────────────────────── -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+  </div>
+  <div class="container hero-content">
+    <p class="hero-eyebrow">✦ Premium Oil Perfumes & Miniatures</p>
+    <h1 class="hero-title">The Scent That<br><em>Defines You</em></h1>
+    <p class="hero-sub">Pure oil perfumes crafted from the world's finest ingredients — agarwood, saffron, Taif rose, and sacred frankincense. No alcohol. Just fragrance.</p>
+    <div class="hero-cta">
+      <a href="/catalog" class="btn btn-gold">Shop the Collection</a>
+      <a href="/catalog?cat=miniature" class="btn btn-outline">Try a Miniature</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">16+</span><span class="stat-label">Unique Scents</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Pure Oil</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">0</span><span class="stat-label">Alcohol</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY OIL PERFUMES ─────────────────── -->
+<section class="section" style="padding:80px 0;">
+  <div class="container">
+    <p class="section-sub text-center">Why Choose Oil Perfumes</p>
+    <h2 class="section-title text-center">The Pure Difference</h2>
+    <div class="divider"></div>
+    <div class="features-grid" style="margin-top:52px;">
+      <div class="feature-card">
+        <div class="feature-icon">⏳</div>
+        <h3>Lasts All Day</h3>
+        <p>Oil perfumes cling to skin and evolve beautifully for 8–12+ hours, far outlasting alcohol-based sprays.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌿</div>
+        <h3>No Alcohol Burn</h3>
+        <p>Gentle on sensitive skin, never dries or irritates. Pure fragrance oils moisturise as they scent.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✈️</div>
+        <h3>Travel Friendly</h3>
+        <p>Compact roller bottles go everywhere. No spill risk, no airport restrictions on our miniatures.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>Globally Sourced</h3>
+        <p>Oud from Assam, roses from Taif, saffron from Kashmir, frankincense from Oman — only the best.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURED PRODUCTS ────────────────── -->
+<section class="section" style="padding:0 0 80px; background:var(--cream-dark);">
+  <div class="container" style="padding-top:80px;">
+    <p class="section-sub text-center">Customer Favourites</p>
+    <h2 class="section-title text-center">Bestselling Scents</h2>
+    <div class="divider"></div>
+    <div class="product-grid" style="margin-top:48px;">
+      <% featured.forEach(function(p) { %>
+        <%- include('partials/product-card', { product: p }) %>
+      <% }) %>
+      <!-- CTA card -->
+      <div class="product-card see-all-card">
+        <a href="/catalog" class="see-all-inner">
+          <span class="see-all-icon">→</span>
+          <p>See All <strong>16 Scents</strong></p>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MINIATURES BANNER ─────────────────── -->
+<section class="mini-banner">
+  <div class="container mini-banner-inner">
+    <div>
+      <p class="section-sub">Perfect Gifts & Trials</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,42px);color:var(--gold);">Miniatures & Discovery Sets</h2>
+      <p style="color:var(--cream-dark);margin:16px 0 28px;max-width:480px;font-size:15px;line-height:1.7;">Try before you commit to a full bottle. Our miniatures start from just ₦1,800 and gift sets make the most beautiful presents.</p>
+      <a href="/catalog?cat=miniature" class="btn btn-gold">Explore Miniatures</a>
+    </div>
+    <div class="mini-banner-visual">
+      <div class="mini-bottles">
+        <div class="mini-bottle b1">🧴</div>
+        <div class="mini-bottle b2">🧪</div>
+        <div class="mini-bottle b3">💎</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRUST SECTION ─────────────────────── -->
+<section class="section" style="padding:80px 0;">
+  <div class="container text-center">
+    <p class="section-sub">How It Works</p>
+    <h2 class="section-title">From Our Bottles to You</h2>
+    <div class="divider"></div>
+    <div class="steps-grid" style="margin-top:52px;">
+      <div class="step"><div class="step-num">01</div><h3>Browse & Choose</h3><p>Explore our full catalog of oil perfumes and miniatures.</p></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><div class="step-num">02</div><h3>Register & Order</h3><p>Create your account and place your order in seconds.</p></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><div class="step-num">03</div><h3>We Deliver</h3><p>We prepare your order and dispatch it to your doorstep.</p></div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* Hero */
+.hero { position:relative; min-height:100vh; background:linear-gradient(135deg,var(--ebony) 0%,var(--dark-brown) 60%,#3d1800 100%); display:flex;align-items:center;overflow:hidden; }
+.hero-bg { position:absolute;inset:0;pointer-events:none; }
+.hero-orb { position:absolute;border-radius:50%;filter:blur(80px); }
+.orb1 { width:500px;height:500px;background:rgba(212,168,67,0.08);top:-100px;right:-100px; }
+.orb2 { width:400px;height:400px;background:rgba(212,168,67,0.05);bottom:-80px;left:-80px; }
+.hero-content { position:relative;z-index:1;padding:140px 24px 80px;max-width:700px; }
+.hero-eyebrow { color:var(--gold);font-size:12px;letter-spacing:3px;text-transform:uppercase;margin-bottom:24px; }
+.hero-title { font-family:'Cormorant Garamond',serif;font-size:clamp(48px,7vw,90px);color:var(--white);line-height:1.05;margin-bottom:24px; }
+.hero-title em { color:var(--gold);font-style:italic; }
+.hero-sub { font-size:16px;color:rgba(250,246,240,0.75);line-height:1.8;max-width:520px;margin-bottom:36px; }
+.hero-cta { display:flex;gap:16px;flex-wrap:wrap;margin-bottom:56px; }
+.hero-stats { display:flex;align-items:center;gap:24px; }
+.stat { text-align:center; }
+.stat-num { display:block;font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);font-weight:600; }
+.stat-label { display:block;font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px; }
+.stat-divider { width:1px;height:40px;background:rgba(212,168,67,0.3); }
+
+/* Features */
+.features-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px; }
+.feature-card { background:var(--white);padding:28px;border-radius:var(--radius-lg);box-shadow:var(--shadow);text-align:center;transition:transform 0.3s; }
+.feature-card:hover { transform:translateY(-4px); }
+.feature-icon { font-size:40px;margin-bottom:14px; }
+.feature-card h3 { font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:10px;color:var(--text); }
+.feature-card p { font-size:13px;color:var(--muted);line-height:1.7; }
+
+/* Mini Banner */
+.mini-banner { background:linear-gradient(135deg,var(--ebony),#3d1800);padding:80px 0; }
+.mini-banner-inner { display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center; }
+.mini-bottles { display:flex;gap:20px;justify-content:center;align-items:flex-end; }
+.mini-bottle { width:80px;height:120px;background:rgba(212,168,67,0.1);border:1px solid rgba(212,168,67,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:36px;animation:float 3s ease-in-out infinite; }
+.b2 { height:150px;animation-delay:0.5s; }
+.b3 { height:100px;animation-delay:1s; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+/* See-all card */
+.see-all-card { border:2px dashed var(--cream-dark);box-shadow:none;background:var(--cream); }
+.see-all-inner { display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;min-height:300px;text-decoration:none;color:var(--muted);gap:12px;transition:color 0.2s; }
+.see-all-inner:hover { color:var(--gold); }
+.see-all-icon { font-size:40px;transition:transform 0.3s; }
+.see-all-inner:hover .see-all-icon { transform:translateX(8px); }
+.see-all-inner p { font-size:15px; }
+
+/* Steps */
+.steps-grid { display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap; }
+.step { max-width:220px;text-align:center; }
+.step-num { font-family:'Cormorant Garamond',serif;font-size:48px;color:var(--gold);opacity:0.4;line-height:1;margin-bottom:8px; }
+.step h3 { font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:8px; }
+.step p { font-size:13px;color:var(--muted); }
+.step-arrow { font-size:28px;color:var(--gold);opacity:0.4; }
+
+@media(max-width:900px){
+  .mini-banner-inner { grid-template-columns:1fr; }
+  .mini-banner-visual { display:none; }
+  .steps-grid { flex-direction:column; }
+  .step-arrow { transform:rotate(90deg); }
+}
+</style>
+
+<%- include('partials/footer') %>

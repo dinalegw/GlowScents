@@ -1,0 +1,55 @@
+<%- include('partials/header', { title: 'My Orders — Glow Scents', user: user }) %>
+
+<div class="page-header">
+  <div class="container">
+    <h1>My Orders</h1>
+    <p>Your order history</p>
+  </div>
+</div>
+
+<section style="padding:60px 0 100px;">
+  <div class="container">
+    <% if (orders.length === 0) { %>
+      <div class="empty-state">
+        <div class="icon">📦</div>
+        <h3>No orders yet</h3>
+        <p>Your order history will appear here once you place an order.</p>
+        <a href="/catalog" class="btn btn-gold">Shop Now</a>
+      </div>
+    <% } else { %>
+      <% orders.forEach(function(order) { %>
+        <div style="background:var(--white);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow);margin-bottom:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+            <div>
+              <p style="font-size:12px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;">ORDER #<%= order.id %></p>
+              <p style="font-size:13px;color:var(--muted);">
+                <%= new Date(order.created_at).toLocaleDateString('en-NG', {day:'numeric',month:'long',year:'numeric'}) %>
+              </p>
+            </div>
+            <div style="text-align:right;">
+              <span style="background:<%= order.status === 'pending' ? '#fff3cd' : '#d4edda' %>;color:<%= order.status === 'pending' ? '#856404' : '#155724' %>;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;">
+                <%= order.status %>
+              </span>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);font-weight:600;margin-top:6px;">₦<%= order.total.toLocaleString() %></div>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid var(--cream-dark);padding-top:16px;">
+            <% order.items.forEach(function(item) { %>
+              <div style="display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid var(--cream-dark);">
+                <span><%= item.name %> (<%= item.size %>)</span>
+                <span style="color:var(--muted);">×<%= item.qty %> — ₦<%= (item.price * item.qty).toLocaleString() %></span>
+              </div>
+            <% }) %>
+          </div>
+
+          <div style="margin-top:14px;font-size:13px;color:var(--muted);">
+            <strong>Delivery:</strong> <%= order.delivery_address %>, <%= order.delivery_city %><%= order.delivery_state ? ', ' + order.delivery_state : '' %>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

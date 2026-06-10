@@ -1,0 +1,111 @@
+<%- include('partials/header', { title: 'Checkout — Glow Scents', user: user }) %>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Checkout</h1>
+    <p>Complete your order</p>
+  </div>
+</div>
+
+<section style="padding:60px 0 100px;">
+  <div class="container">
+    <div class="checkout-grid">
+      <!-- Delivery Form -->
+      <div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;margin-bottom:24px;">Delivery Details</h2>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="alert alert-error"><%= error %></div>
+        <% } %>
+
+        <div style="background:var(--white);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow);margin-bottom:28px;">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:4px;">Ordering as</p>
+          <p style="font-weight:600;color:var(--text)"><%= userData.name %> &nbsp;|&nbsp; <%= userData.phone %></p>
+          <p style="font-size:13px;color:var(--muted);margin-top:4px;"><%= userData.email %></p>
+        </div>
+
+        <form id="checkout-form" method="POST" action="/checkout">
+          <input type="hidden" name="cart" id="cart-input">
+
+          <div class="form-group">
+            <label class="form-label">Delivery Address *</label>
+            <input type="text" name="delivery_address" class="form-input" required
+              value="<%= userData.address %>" placeholder="House/flat number, street name">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">City *</label>
+              <input type="text" name="delivery_city" class="form-input" required value="<%= userData.city %>">
+            </div>
+            <div class="form-group">
+              <label class="form-label">State</label>
+              <input type="text" name="delivery_state" class="form-input" value="<%= userData.state || '' %>">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Order Notes (optional)</label>
+            <textarea name="notes" class="form-textarea" placeholder="Special instructions, preferred delivery time, etc."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-gold btn-full" id="submit-btn" style="font-size:15px;padding:16px;">
+            Place Order →
+          </button>
+          <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:10px;">
+            🔒 Your details are handled securely
+          </p>
+        </form>
+      </div>
+
+      <!-- Order Summary -->
+      <div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;margin-bottom:24px;">Order Summary</h2>
+        <div class="order-summary">
+          <div id="checkout-items"></div>
+          <div style="border-top:2px solid var(--cream-dark);margin:16px 0;"></div>
+          <div class="summary-total"><span>Total</span><span id="checkout-total" style="color:var(--gold);">₦0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.checkout-grid { display:grid;grid-template-columns:1fr 400px;gap:40px;align-items:start; }
+@media(max-width:900px){ .checkout-grid { grid-template-columns:1fr; } }
+</style>
+
+<script>
+const cart = JSON.parse(localStorage.getItem('glow_scents_cart') || '[]');
+
+if (cart.length === 0) {
+  window.location.href = '/cart';
+}
+
+// Fill hidden cart input
+document.getElementById('cart-input').value = JSON.stringify(cart);
+
+// Render summary
+const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+document.getElementById('checkout-total').textContent = '₦' + total.toLocaleString();
+document.getElementById('checkout-items').innerHTML = cart.map(i => `
+  <div style="display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid var(--cream-dark);">
+    <div>
+      <div style="font-weight:500;">${i.name}</div>
+      <div style="font-size:12px;color:var(--muted);">${i.size} × ${i.qty}</div>
+    </div>
+    <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--gold);">₦${(i.price*i.qty).toLocaleString()}</div>
+  </div>
+`).join('');
+
+// On submit, clear cart
+document.getElementById('checkout-form').addEventListener('submit', function(e) {
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Placing order...';
+  btn.disabled = true;
+  // Cart cleared after redirect on success page
+});
+</script>
+
+<%- include('partials/footer') %>

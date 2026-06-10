@@ -1,0 +1,25 @@
+<div class="product-card">
+  <div class="product-image">
+    <span class="product-icon"><%= product.category === 'miniature' ? '🧪' : '🧴' %></span>
+    <% if (product.badge) { %>
+      <span class="product-badge <%= product.badge.toLowerCase().replace(' ','') === 'bestseller' ? '' : product.badge.toLowerCase().replace(' size','').replace(' set','') %>">
+        <%= product.badge %>
+      </span>
+    <% } %>
+  </div>
+  <div class="product-body">
+    <p class="product-category"><%= product.category === 'oil' ? 'Oil Perfume' : 'Miniature' %></p>
+    <h3 class="product-name"><%= product.name %></h3>
+    <p class="product-desc"><%= product.description %></p>
+    <div class="product-footer">
+      <div>
+        <div class="product-price">₦<%= product.price.toLocaleString() %></div>
+        <div class="product-size"><%= product.size %></div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <a href="/product/<%= product.id %>" class="btn btn-outline btn-sm">View</a>
+        <button class="btn btn-gold btn-sm" onclick="addToCart(<%= JSON.stringify(product) %>)">Add</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,110 @@
+<%- include('partials/header', { title: 'Your Cart — Glow Scents', user: user }) %>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Your Cart</h1>
+    <p>Review your items before checkout</p>
+  </div>
+</div>
+
+<section style="padding:60px 0 100px;">
+  <div class="container">
+    <div id="cart-empty" class="empty-state" style="display:none;">
+      <div class="icon">🛍️</div>
+      <h3>Your cart is empty</h3>
+      <p>Browse our collection and add your favourite scents.</p>
+      <a href="/catalog" class="btn btn-gold">Shop Now</a>
+    </div>
+
+    <div id="cart-content" style="display:none;">
+      <div class="cart-layout">
+        <!-- Items -->
+        <div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:24px;color:var(--text);">
+            Items (<span id="cart-item-count">0</span>)
+          </h2>
+          <div id="cart-items-list"></div>
+          <a href="/catalog" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin-top:16px;">
+            ← Continue Shopping
+          </a>
+        </div>
+
+        <!-- Summary -->
+        <div class="order-summary">
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-bottom:24px;">Order Summary</h3>
+          <div class="summary-row"><span>Subtotal</span><span id="summary-subtotal">₦0</span></div>
+          <div class="summary-row"><span>Delivery</span><span style="color:#27ae60;">Calculated at checkout</span></div>
+          <div class="summary-total"><span>Total</span><span id="summary-total" style="color:var(--gold);">₦0</span></div>
+          <a href="/checkout" class="btn btn-gold btn-full" style="margin-top:20px;" id="checkout-btn">
+            Proceed to Checkout →
+          </a>
+          <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:12px;">
+            🔒 Secure order process
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+function renderCart() {
+  const cart = JSON.parse(localStorage.getItem('glow_scents_cart') || '[]');
+  const emptyEl = document.getElementById('cart-empty');
+  const contentEl = document.getElementById('cart-content');
+
+  if (cart.length === 0) {
+    emptyEl.style.display = 'block';
+    contentEl.style.display = 'none';
+    return;
+  }
+
+  emptyEl.style.display = 'none';
+  contentEl.style.display = 'block';
+
+  const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  const itemCount = cart.reduce((s,i) => s + i.qty, 0);
+
+  document.getElementById('cart-item-count').textContent = itemCount;
+  document.getElementById('summary-subtotal').textContent = '₦' + total.toLocaleString();
+  document.getElementById('summary-total').textContent = '₦' + total.toLocaleString();
+
+  const listEl = document.getElementById('cart-items-list');
+  listEl.innerHTML = cart.map((item, idx) => `
+    <div class="cart-item">
+      <div class="cart-item-icon">${item.category === 'miniature' ? '🧪' : '🧴'}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-sub">${item.size} &nbsp;|&nbsp; ₦${item.price.toLocaleString()} each</div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="updateQty(${idx}, -1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="qty-btn" onclick="updateQty(${idx}, 1)">+</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+        <div class="cart-item-price">₦${(item.price * item.qty).toLocaleString()}</div>
+        <button class="remove-btn" onclick="removeItem(${idx})" title="Remove">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateQty(idx, delta) {
+  const cart = JSON.parse(localStorage.getItem('glow_scents_cart') || '[]');
+  cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+  localStorage.setItem('glow_scents_cart', JSON.stringify(cart));
+  renderCart(); updateCartBadge();
+}
+
+function removeItem(idx) {
+  const cart = JSON.parse(localStorage.getItem('glow_scents_cart') || '[]');
+  cart.splice(idx, 1);
+  localStorage.setItem('glow_scents_cart', JSON.stringify(cart));
+  renderCart(); updateCartBadge();
+}
+
+renderCart();
+</script>
+
+<%- include('partials/footer') %>

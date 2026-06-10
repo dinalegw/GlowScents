@@ -1,0 +1,32 @@
+<%- include('partials/header', { title: 'Log In — Glow Scents', user: null }) %>
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <h2>Glow Scents</h2>
+      <p>Welcome Back</p>
+    </div>
+
+    <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+
+    <form method="POST" action="/login">
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" name="email" class="form-input" required value="<%= formData.email || '' %>" placeholder="you@example.com" autofocus>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-input" required placeholder="Your password">
+      </div>
+      <button type="submit" class="btn btn-gold btn-full" style="margin-top:8px;">Log In →</button>
+    </form>
+
+    <div class="auth-divider">Don't have an account yet?</div>
+    <a href="/register" class="btn btn-outline btn-full">Create Account</a>
+    <div style="text-align:center;margin-top:16px;">
+      <a href="/" style="font-size:13px;color:var(--muted);">← Back to Home</a>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
