@@ -51,7 +51,9 @@ A full-stack e-commerce web app for Glow Scents. Customers can browse the catalo
   ## Contact Form
   The contact form sends messages to the `OWNER_EMAIL` using the same SMTP configuration used for order emails. The mailer function `sendContactMessage` is in `data/mailer.js`.
 
-  ---
+
+
+  --
 
   ## WhatsApp Floating Button
   Set `WA_NUMBER` in `.env` (numbers only, e.g. `2348000000000`) to enable the WhatsApp chat link. The button is visible on all pages and opens a chat to that number.
