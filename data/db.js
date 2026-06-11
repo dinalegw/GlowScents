@@ -12,6 +12,8 @@ console.log('✅ Database ready (JSON store)');
 
 // sqlite3-compatible wrapper
 const wrapper = {
+
+  
   get: (sql, params, cb) => {
     try {
       let row = null;
