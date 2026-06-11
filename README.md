@@ -76,7 +76,7 @@ A full-stack e-commerce web app for Glow Scents. Customers can browse the catalo
 
   When deploying to production with HTTPS, set `cookie.secure = true` in `server.js` and ensure the `SESSION_SECRET` is a strong secret.
 
-  ---
+  -----
 
   If you'd like, I can now:
   - run a quick audit (lint/static checks),
