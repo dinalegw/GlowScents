@@ -58,7 +58,7 @@ A full-stack e-commerce web app for Glow Scents. Customers can browse the catalo
   ## WhatsApp Floating Button
   Set `WA_NUMBER` in `.env` (numbers only, e.g. `2348000000000`) to enable the WhatsApp chat link. The button is visible on all pages and opens a chat to that number.
 
-  ---
+  -----
 
   ## File Overview
   See the main structure of the app in the repository root. Important files:
