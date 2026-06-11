@@ -2,7 +2,7 @@
 
 A full-stack e-commerce web app for Glow Scents. Customers can browse the catalog, register, place orders, and you get notified by email with their full details (name, phone, address).
 
----
+------
 
 ## 🚀 Quick Start (Local)
 
