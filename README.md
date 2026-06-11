@@ -68,7 +68,7 @@ A full-stack e-commerce web app for Glow Scents. Customers can browse the catalo
   - `public/css/style.css` — main stylesheet (includes WA styles)
   - `data/mailer.js` — email helpers
 
-  ---
+  -----
 
   ## Deploying / Hosting
   Same options as before: Railway, Render, or a VPS. Ensure env variables are set in your hosting environment:
