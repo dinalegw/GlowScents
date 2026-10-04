@@ -1,5 +1,11 @@
 const nodemailer = require('nodemailer');
 
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>'\"]/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+  })[character]);
+}
+
 function getOwnerEmail() {
   const email = process.env.OWNER_EMAIL;
   const validEmail = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -36,8 +42,8 @@ async function sendOrderNotification(order) {
 
   const itemsHtml = JSON.parse(order.items).map(item => `
     <tr>
-      <td style="padding:8px 12px;border-bottom:1px solid #f0e8d8;">${item.name}</td>
-      <td style="padding:8px 12px;border-bottom:1px solid #f0e8d8;text-align:center;">${item.size}</td>
+      <td style="padding:8px 12px;border-bottom:1px solid #f0e8d8;">${escapeHtml(item.name)}</td>
+      <td style="padding:8px 12px;border-bottom:1px solid #f0e8d8;text-align:center;">${escapeHtml(item.size)}</td>
       <td style="padding:8px 12px;border-bottom:1px solid #f0e8d8;text-align:center;">${item.qty}</td>
       <td style="padding:8px 12px;border-bottom:1px solid #f0e8d8;text-align:right;">₦${(item.price * item.qty).toLocaleString()}</td>
     </tr>
@@ -46,7 +52,7 @@ async function sendOrderNotification(order) {
   const mailOptions = {
     from: `"Glow Scents Orders" <${process.env.SMTP_USER}>`,
     to: getOwnerEmail(),
-    subject: `🛍️ New Order #${order.id} — ${order.user_name} — ₦${order.total.toLocaleString()}`,
+    subject: `🛍️ New Order #${order.id} — ${escapeHtml(order.user_name)} — ₦${order.total.toLocaleString()}`,
     html: `
       <!DOCTYPE html>
       <html>
@@ -70,23 +76,23 @@ async function sendOrderNotification(order) {
             <!-- Customer Info -->
             <h2 style="color:#3d1f00;font-size:16px;border-bottom:2px solid #f0e8d8;padding-bottom:8px;margin-top:0;">👤 Customer Details</h2>
             <table style="width:100%;border-collapse:collapse;">
-              <tr><td style="padding:6px 0;color:#888;width:130px;">Name</td><td style="padding:6px 0;color:#1a0a00;font-weight:bold;">${order.user_name}</td></tr>
-              <tr><td style="padding:6px 0;color:#888;">Email</td><td style="padding:6px 0;"><a href="mailto:${order.user_email}" style="color:#d4a843;">${order.user_email}</a></td></tr>
-              <tr><td style="padding:6px 0;color:#888;">Phone</td><td style="padding:6px 0;color:#1a0a00;font-weight:bold;font-size:16px;">📞 ${order.user_phone}</td></tr>
+              <tr><td style="padding:6px 0;color:#888;width:130px;">Name</td><td style="padding:6px 0;color:#1a0a00;font-weight:bold;">${escapeHtml(order.user_name)}</td></tr>
+              <tr><td style="padding:6px 0;color:#888;">Email</td><td style="padding:6px 0;"><a href="mailto:${escapeHtml(order.user_email)}" style="color:#d4a843;">${escapeHtml(order.user_email)}</a></td></tr>
+              <tr><td style="padding:6px 0;color:#888;">Phone</td><td style="padding:6px 0;color:#1a0a00;font-weight:bold;font-size:16px;">📞 ${escapeHtml(order.user_phone)}</td></tr>
             </table>
 
             <!-- Delivery Address -->
             <h2 style="color:#3d1f00;font-size:16px;border-bottom:2px solid #f0e8d8;padding-bottom:8px;margin-top:24px;">📍 Delivery Address</h2>
             <div style="background:#faf6f0;padding:14px 18px;border-radius:8px;border-left:4px solid #d4a843;">
               <p style="margin:0;color:#1a0a00;line-height:1.7;">
-                ${order.delivery_address}<br>
-                ${order.delivery_city}${order.delivery_state ? ', ' + order.delivery_state : ''}
+                ${escapeHtml(order.delivery_address)}<br>
+                ${escapeHtml(order.delivery_city)}${order.delivery_state ? ', ' + escapeHtml(order.delivery_state) : ''}
               </p>
             </div>
 
             ${order.notes ? `
             <h2 style="color:#3d1f00;font-size:16px;border-bottom:2px solid #f0e8d8;padding-bottom:8px;margin-top:24px;">📝 Customer Notes</h2>
-            <p style="background:#fffdf7;padding:12px;border-radius:6px;color:#555;font-style:italic;">${order.notes}</p>
+            <p style="background:#fffdf7;padding:12px;border-radius:6px;color:#555;font-style:italic;">${escapeHtml(order.notes)}</p>
             ` : ''}
 
             <!-- Items -->
@@ -143,8 +149,8 @@ async function sendOrderConfirmation(order, userEmail) {
             <p style="color:#c9a96e;margin:8px 0 0;font-size:13px;letter-spacing:2px;">ORDER CONFIRMED ✨</p>
           </div>
           <div style="padding:30px;">
-            <p style="color:#3d1f00;font-size:18px;">Thank you, <strong>${order.user_name}</strong>!</p>
-            <p style="color:#555;line-height:1.7;">Your order has been received and we'll prepare it with care. We'll reach you on <strong>${order.user_phone}</strong> before dispatch.</p>
+            <p style="color:#3d1f00;font-size:18px;">Thank you, <strong>${escapeHtml(order.user_name)}</strong>!</p>
+            <p style="color:#555;line-height:1.7;">Your order has been received and we'll prepare it with care. We'll reach you on <strong>${escapeHtml(order.user_phone)}</strong> before dispatch.</p>
             <div style="background:#faf6f0;padding:16px;border-radius:8px;margin:20px 0;">
               <p style="margin:0 0 8px;color:#888;font-size:12px;letter-spacing:1px;">ORDER #${order.id}</p>
               <p style="margin:0;color:#1a0a00;font-size:20px;font-weight:bold;">₦${order.total.toLocaleString()}</p>
@@ -168,15 +174,15 @@ async function sendContactMessage({ name, email, phone, message }) {
   const mailOptions = {
     from: `"Glow Scents Contact" <${process.env.SMTP_USER}>`,
     to: getOwnerEmail(),
-    subject: `📨 Contact Form: ${name} <${email}>`,
+    subject: `📨 Contact Form: ${escapeHtml(name)} <${escapeHtml(email)}>`,
     html: `
       <div style="font-family:Arial,Helvetica,sans-serif;color:#222;">
         <h2>New contact message</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-        <p><strong>Phone:</strong> ${phone || '(not provided)'}</p>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></p>
+        <p><strong>Phone:</strong> ${escapeHtml(phone || '(not provided)')}</p>
         <h3>Message</h3>
-        <p style="white-space:pre-wrap;">${message}</p>
+        <p style="white-space:pre-wrap;">${escapeHtml(message)}</p>
       </div>
     `
   };
