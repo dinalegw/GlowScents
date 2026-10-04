@@ -1,0 +1,29 @@
+CREATE TABLE IF NOT EXISTS users (
+  id BIGSERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(254) NOT NULL UNIQUE,
+  phone VARCHAR(40) NOT NULL,
+  address VARCHAR(300) NOT NULL,
+  city VARCHAR(100) NOT NULL,
+  state VARCHAR(100) NOT NULL DEFAULT '',
+  password TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id BIGSERIAL PRIMARY KEY,
+  user_id BIGINT NOT NULL REFERENCES users(id) ON DELETE RESTRICT,
+  user_name VARCHAR(100) NOT NULL,
+  user_email VARCHAR(254) NOT NULL,
+  user_phone VARCHAR(40) NOT NULL,
+  delivery_address VARCHAR(300) NOT NULL,
+  delivery_city VARCHAR(100) NOT NULL,
+  delivery_state VARCHAR(100) NOT NULL DEFAULT '',
+  items TEXT NOT NULL,
+  total INTEGER NOT NULL CHECK (total >= 0),
+  status VARCHAR(32) NOT NULL DEFAULT 'pending',
+  notes VARCHAR(1000) NOT NULL DEFAULT '',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS orders_user_created_at_idx ON orders (user_id, created_at DESC);
