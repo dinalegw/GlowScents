@@ -14,7 +14,7 @@ GlowScents is an Express 4 + EJS fragrance catalogue and manual-order applicatio
 | High | Real payment confirmation is absent. Orders are recorded as pending on checkout. | `routes/shop.js`. | Unresolved business integration: use Paystack test/live webhooks before charging customers. |
 | Medium | Login redirect was not restricted to local paths. | `routes/auth.js`. | Fixed: safe local redirect validation. |
 | Medium | Order success route accepted arbitrary IDs. | `routes/shop.js`. | Fixed: order ownership is checked before rendering. |
-| Medium | Email HTML interpolates customer values directly. | `data/mailer.js`. | Pending: apply HTML escaping before enabling production mail. |
+| Medium | Email HTML interpolated customer values directly. | `data/mailer.js`. | Fixed: all customer-controlled HTML is escaped before templating. |
 | Medium | No automated tests exist. | `package.json`. | Pending: add integration tests after database replacement. |
 | Medium | `node_modules` is committed. | Repository tree includes `node_modules/`. | Pending cleanup: remove with a dedicated review because it is a large destructive repository operation. |
 
