@@ -10,7 +10,7 @@ GlowScents is an Express 4 + EJS fragrance catalogue and manual-order applicatio
 | Critical | Checkout trusted browser-supplied prices, quantities, names, and sizes. | `routes/shop.js` calculated totals from `req.body.cart`. | Fixed: server rebuilds every order from the trusted product catalogue. |
 | High | Session used a committed default secret and insecure production cookie settings. | `server.js` had a fallback secret and `secure: false`. | Fixed: production requires `SESSION_SECRET`; secure cookies, proxy trust, httpOnly and SameSite are configured. |
 | High | The first registered account became admin when `OWNER_EMAIL` was absent. | `middleware/auth.js`. | Fixed: only the configured owner can administer the shop. |
-| High | Stored JSON database is unsafe for multi-instance/serverless production and is included in source control. | `data/db.js`, `data/glow-scents.json`. | Unresolved external architecture blocker: migrate to a managed database before production deployment. |
+| High | Stored JSON database was unsafe for multi-instance/serverless production. | `data/db.js`, `data/glow-scents.json`. | Fixed in code and Neon: the app now uses Postgres; schema migration applied to the isolated `glowscents` database. Legacy JSON data still needs a reviewed import before it is deleted. |
 | High | Real payment confirmation is absent. Orders are recorded as pending on checkout. | `routes/shop.js`. | Unresolved business integration: use Paystack test/live webhooks before charging customers. |
 | Medium | Login redirect was not restricted to local paths. | `routes/auth.js`. | Fixed: safe local redirect validation. |
 | Medium | Order success route accepted arbitrary IDs. | `routes/shop.js`. | Fixed: order ownership is checked before rendering. |
@@ -34,14 +34,14 @@ GlowScents is an Express 4 + EJS fragrance catalogue and manual-order applicatio
 | `/contact` | GET/POST | Public | SMTP | Fails honestly if SMTP missing; no rate limit/CSRF |
 
 ## Vercel assessment
-Do **not** deploy the current data layer to Vercel production. Vercel functions do not provide durable writable filesystem storage; LowDB writes would be unreliable and can be lost. Connect a managed database (for example Neon Postgres) and replace `data/db.js` before deployment. Also configure a durable session store, real payment verification, SMTP sender/domain, and production secrets.
+The application data layer now targets the isolated `glowscents` Neon Postgres database. Before Vercel production deployment, set `DATABASE_URL` in Vercel, migrate legacy JSON records if needed, configure a durable session store, add real payment verification, and configure SMTP sender/domain plus production secrets.
 
 ## Baseline verification
 A local clone could not be obtained in this execution environment because its network proxy was unavailable, so runtime/browser checks and `npm ci` could not be performed. Source was inspected through the connected GitHub repository. The fixes on this branch are static-review changes and require CI/runtime verification after checkout.
 
 ## Remaining priorities
-1. Replace LowDB with managed Postgres and durable session storage.
-2. Add Paystack checkout plus signed, idempotent webhook verification.
+1. Import legacy JSON records into Postgres if they contain real customer data, then remove the JSON store.
+2. Add a durable session store, Paystack checkout plus signed idempotent webhook verification.
 3. Add CSRF protection, rate limits, input schemas and automated integration tests.
-4. Remove committed `node_modules` and the tracked runtime data file after a safe data migration.
-5. Configure Vercel only after steps 1–3.
+4. Remove committed `node_modules` in a dedicated cleanup PR.
+5. Set Vercel environment variables and deploy after steps 1–3.
