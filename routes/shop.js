@@ -93,14 +93,14 @@ router.post('/checkout', requireAuth, (req, res) => {
   const { delivery_address, delivery_city, delivery_state, notes, cart } = req.body;
   const cartResult = validateCart(cart);
   if (cartResult.error) {
-    return res.status(400).redirect('/cart?error=' + encodeURIComponent(cartResult.error));
+    return res.redirect('/cart?error=' + encodeURIComponent(cartResult.error));
   }
 
   const address = (delivery_address || '').trim().slice(0, 300);
   const city = (delivery_city || '').trim().slice(0, 100);
   const state = (delivery_state || '').trim().slice(0, 100);
   const safeNotes = (notes || '').trim().slice(0, 1000);
-  if (!address || !city) return res.status(400).redirect('/checkout?error=delivery');
+  if (!address || !city) return res.redirect('/checkout?error=delivery');
 
   db.get('SELECT * FROM users WHERE id = ?', [req.session.userId], (userError, user) => {
     if (userError || !user) return res.redirect('/login');
