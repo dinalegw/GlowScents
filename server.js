@@ -34,7 +34,7 @@ app.use(session({
   }
 }));
 
-require('./data/db');
+const db = require('./data/db');
 
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
@@ -48,12 +48,20 @@ app.use((req, res) => {
   res.status(404).render('404', { user: req.session ? req.session.userName : null });
 });
 
-app.listen(PORT, () => {
-  console.log(`Glow Scents is running at http://localhost:${PORT}`);
+async function start() {
+  await db.initialize();
+  app.listen(PORT, () => {
+    console.log(`Glow Scents is running at http://localhost:${PORT}`);
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
     console.warn('SMTP_USER and SMTP_PASS are not configured; email delivery is disabled.');
   }
   if (!process.env.OWNER_EMAIL) {
     console.warn('OWNER_EMAIL is not configured; admin access and owner notifications are disabled.');
   }
+  });
+}
+
+start().catch((error) => {
+  console.error('Unable to start Glow Scents:', error.message);
+  process.exit(1);
 });
