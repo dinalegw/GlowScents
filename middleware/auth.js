@@ -3,14 +3,14 @@ function requireAuth(req, res, next) {
     return next();
   }
   req.session.returnTo = req.originalUrl;
-  res.redirect('/login?msg=Please+log+in+to+continue');
+  return res.redirect('/login?msg=Please+log+in+to+continue');
 }
 
 function redirectIfAuth(req, res, next) {
   if (req.session && req.session.userId) {
     return res.redirect('/catalog');
   }
-  next();
+  return next();
 }
 
 const db = require('../data/db');
@@ -21,16 +21,16 @@ function requireAdmin(req, res, next) {
     return res.redirect('/login?msg=Please+log+in+to+continue');
   }
 
+  const owner = (process.env.OWNER_EMAIL || '').trim().toLowerCase();
+  if (!owner) {
+    return res.status(503).send('Admin access is not configured.');
+  }
+
   db.get('SELECT * FROM users WHERE id = ?', [req.session.userId], (err, user) => {
-    if (err || !user) return res.status(403).send('Forbidden');
-
-    const owner = (process.env.OWNER_EMAIL || '').toLowerCase();
-    if (owner && user.email && user.email.toLowerCase() === owner) return next();
-
-    // fallback: allow first user (id === 1) when OWNER_EMAIL not configured
-    if (!owner && user.id === 1) return next();
-
-    return res.status(403).send('Forbidden');
+    if (err || !user || !user.email || user.email.toLowerCase() !== owner) {
+      return res.status(403).send('Forbidden');
+    }
+    return next();
   });
 }
 

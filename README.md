@@ -1,87 +1,87 @@
-# 🌟 Glow Scents — Premium Oil Perfumes & Miniatures
+# Glow Scents
 
-A full-stack e-commerce web app for Glow Scents. Customers can browse the catalog, register, place orders, and you get notified by email with their full details (name, phone, address).
+Glow Scents is an Express/EJS storefront for premium oil perfumes and miniature fragrance sets. Customers can browse products, create an account, manage their profile, place a **pending manual order**, and view their own orders. The configured owner can view a basic admin dashboard.
 
-------
+## Current stack
 
-## 🚀 Quick Start (Local)
+- Node.js + Express 4
+- EJS templates and static CSS/JavaScript
+- `bcryptjs` password hashing and `express-session`
+- Nodemailer/SMTP for order and contact emails
+- LowDB JSON file store — development/demo only
 
-1. Install Node.js
-   - Download and install Node.js v18 or later from https://nodejs.org
+## Local setup
 
-2. Install dependencies
-   - Open a terminal in this project folder and run:
-     ```bash
-     npm install
-     ```
+1. Use Node.js 18 or later.
+2. Install dependencies:
 
-3. Configure environment variables
-   - Copy the example file:
-     ```bash
-     cp .env.example .env
-     ```
-   - Open `.env` and edit the values:
-     - `OWNER_EMAIL` — the email address receiving order and contact notifications
-     - `SMTP_HOST` — your SMTP server (default: `smtp.gmail.com`)
-     - `SMTP_PORT` — your SMTP port (default: `587`)
-     - `SMTP_USER` — your SMTP login email
-     - `SMTP_PASS` — your SMTP password or app password
-     - `WA_NUMBER` — optional WhatsApp number in international format, e.g. `+2348000000000`
-     - `SESSION_SECRET` — a strong random string for session security
+   ```bash
+   npm ci
+   ```
 
-   - For Gmail, configure a Gmail App Password here:
-     https://myaccount.google.com/apppasswords
+3. Copy the safe template and set local values:
 
-4. Start the app
+   ```bash
+   cp .env.example .env
+   ```
+
+4. Start the app:
+
    ```bash
    npm start
    ```
-   Then open http://localhost:3000
 
-## New Pages & Routes
-  - `/about` — About Glow Scents
-  - `/contact` (GET/POST) — Contact form (sends email to `OWNER_EMAIL`)
-  - `/admin` — Basic admin dashboard (requires login and `OWNER_EMAIL` match; fallback: first user)
+Open http://localhost:3000.
 
-  ## Admin Access
-  The admin route is protected by `middleware/auth.js` and checks the logged-in user's email against `OWNER_EMAIL`. If `OWNER_EMAIL` is not set, the first user (id 1) will be allowed as a fallback admin for convenience when testing locally.
+## Required configuration
 
-  ------
+| Variable | Purpose |
+| --- | --- |
+| `SESSION_SECRET` | Long random secret. Required when `NODE_ENV=production`. |
+| `OWNER_EMAIL` | Receives notifications and is the only account allowed into `/admin`. |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | SMTP delivery configuration. Use an app password or provider credential, never a normal email password. |
+| `WA_NUMBER` | Optional WhatsApp number, numbers only. |
 
-  ## Contact Form
-  The contact form sends messages to the `OWNER_EMAIL` using the same SMTP configuration used for order emails. The mailer function `sendContactMessage` is in `data/mailer.js`.
+## Routes
 
+- `/` — home
+- `/catalog?cat=oil&q=oud` — searchable product catalogue
+- `/product/:id` — product detail
+- `/register`, `/login`, `/logout` — account session routes
+- `/cart`, `/checkout` — signed-in shopping flow
+- `/my-orders`, `/account` — signed-in customer pages
+- `/order-success?id=:id` — only visible to the order owner
+- `/admin` — owner-only dashboard
+- `/contact` — contact form
 
+## Order flow
 
-  -------
+The checkout route rebuilds the cart from the server-owned product catalogue. It does not accept browser-supplied prices, product names, or sizes. Orders are saved as `pending` and email delivery failure does not undo a successfully recorded order.
 
-  ## WhatsApp Floating Button
-  Set `WA_NUMBER` in `.env` (numbers only, e.g. `2348000000000`) to enable the WhatsApp chat link. The button is visible on all pages and opens a chat to that number.
+This is not yet a payment system. Do not charge customers until Paystack (or another provider) has been integrated with signed, idempotent webhook verification.
 
-  -----
+## Production status
 
-  ## File Overview
-  See the main structure of the app in the repository root. Important files:
-  - `server.js` — application entry
-  - `routes/` — route handlers (auth, shop, admin)
-  - `views/` — EJS templates (partial header/footer, pages)
-  - `public/css/style.css` — main stylesheet (includes WA styles)
-  - `data/mailer.js` — email helpers
+**Do not deploy the current LowDB JSON data layer to Vercel.** Serverless instances do not provide reliable writable local storage, and the default in-memory session store is also unsuitable for production.
 
-  -----
+Before deployment, complete these items:
 
-  ## Deploying / Hosting
-  Same options as before: Railway, Render, or a VPS. Ensure env variables are set in your hosting environment:
-  - `SMTP_USER`, `SMTP_PASS`, `OWNER_EMAIL`, optional `WA_NUMBER`, `SESSION_SECRET`.
+1. Replace `data/db.js` with managed Postgres (for example Neon) and checked-in migrations.
+2. Use a durable session store.
+3. Add CSRF protection, rate limiting, input schemas, and integration tests.
+4. Integrate payment initiation and verified webhooks.
+5. Configure SMTP sender/domain and production secrets in the host.
+6. Remove committed `node_modules` and migrate/remove the tracked runtime JSON data without losing real users/orders.
 
-  When deploying to production with HTTPS, set `cookie.secure = true` in `server.js` and ensure the `SESSION_SECRET` is a strong secret.
+See [docs/AUDIT.md](docs/AUDIT.md) for the confirmed findings and route inventory.
 
-  -----
+## Checks
 
-  If you'd like, I can now:
-  - run a quick audit (lint/static checks),
-  - run the app and open a browser preview,
-  - or create a zip archive of the project ready for download.
+The repository has a Node.js CI workflow. Run:
 
-  Tell me which next action you want.
-4. Use Nginx as a reverse proxy
+```bash
+npm test
+npm start
+```
+
+Automated application tests still need to be added after the database migration.

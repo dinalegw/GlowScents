@@ -8,7 +8,7 @@ const { requireAdmin } = require('../middleware/auth');
 const adapter = new FileSync(path.join(__dirname, '..', 'data', 'glow-scents.json'));
 const db = low(adapter);
 
-authCheck = [requireAdmin];
+const authCheck = [requireAdmin];
 
 // GET /admin — basic dashboard
 router.get('/', authCheck, (req, res) => {
